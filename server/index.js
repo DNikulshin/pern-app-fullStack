@@ -20,11 +20,6 @@ app.use('/api', router)
 /*end middleWare*/
 app.use(errorHandler)
 
-// app.get('/', (req, res) => {
-//     res.status(200).json({ message: 'WORKING!!!'})
-//
-// })
-
 const start = async () => {
     try {
         await sequelize.authenticate()
@@ -33,7 +28,6 @@ const start = async () => {
     } catch (e) {
 
     }
-
 }
 
 start()
