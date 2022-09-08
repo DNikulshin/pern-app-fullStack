@@ -2,7 +2,6 @@ const uuid = require('uuid')
 const path = require('path')
 const { Device, DeviceInfo } = require('../models/models')
 const ApiError = require('../error/ApiError')
-const { where } = require("sequelize");
 
 class DeviceController {
     async create (req, res, next) {
@@ -61,11 +60,8 @@ class DeviceController {
                 include: [{ model: DeviceInfo, as: 'info' }]
             }
         )
-
         return res.json(device)
-
     }
-
 }
 
 module.exports = new DeviceController()
