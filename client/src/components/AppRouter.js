@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-// import {authRoutes, publicRoutes} from '../routes'
-import {ADMIN_ROUTE, BASKET_ROUTE, DEVICE_ROUTE, SHOP_ROUTE} from '../consts'
+import { ADMIN_ROUTE, BASKET_ROUTE, DEVICE_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from '../consts'
 import Admin from '../pages/Admin'
 import Shop from '../pages/Shop'
 import Basket from '../pages/Basket'
 import DevicePage from '../pages/DevicePage'
+import Auth from '../pages/Auth'
+import { Context } from '../index'
 
-const AppRouter =  isAuth => {
-    if(isAuth) {
+const AppRouter = () => {
+    const user = (useContext(Context))
+    if (user.isAuth) {
+
         return (
             <Routes>
                 <Route
@@ -16,18 +19,19 @@ const AppRouter =  isAuth => {
                     element={<Admin/>}
                 />
                 <Route
+                    path={SHOP_ROUTE}
+                    element={<Shop/>}
+                />
+                <Route
+                    path={DEVICE_ROUTE + '/:id'}
+                    element={<DevicePage/>}
+                />
+                <Route
                     path={BASKET_ROUTE}
                     element={<Basket/>}
                 />
-                {/*{isAuth && authRoutes.map(({path,element}) =>*/}
-                {/*    <Route key={path} path={path} element={element}/>*/}
-                {/*)}*/}
-                {/*{publicRoutes.map(({path,element}) =>*/}
-                {/*    console.log(path,element)*/}
-                {/*    // <Route key={path} path={path} element={element}/>*/}
-                {/*)}*/}
                 <Route path="*"
-                       element={<Navigate to="/" replace />}
+                       element={<Navigate to={SHOP_ROUTE} replace/>}
                 >
                 </Route>
             </Routes>
@@ -36,16 +40,20 @@ const AppRouter =  isAuth => {
     }
     return (
         <Routes>
-        <Route
-            path={SHOP_ROUTE}
-            element={<Shop/>}
-        />
+            <Route
+                path={REGISTRATION_ROUTE}
+                element={<Auth/>}
+            />
+            <Route
+                path={LOGIN_ROUTE}
+                element={<Auth/>}
+            />
             <Route
                 path={DEVICE_ROUTE + '/:id'}
                 element={<DevicePage/>}
             />
             <Route path="*"
-                   element={<Navigate to="/" replace />}
+                   element={<Navigate to={LOGIN_ROUTE} replace/>}
             >
             </Route>
         </Routes>
